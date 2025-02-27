@@ -29,12 +29,6 @@
             return strongSelf;
         };
         
-        self.sObj = ^ZYCellData * _Nonnull(id  _Nonnull obj) {
-            __strong __typeof(weakSelf) strongSelf = weakSelf;
-            strongSelf.obj = obj;
-            return strongSelf;
-        };
-        
         self.sValue = ^ZYCellData * _Nonnull(NSString * _Nonnull key, id  _Nonnull value) {
             __strong __typeof(weakSelf) strongSelf = weakSelf;
             if (key.length > 0 && value) {
