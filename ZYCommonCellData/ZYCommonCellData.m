@@ -6,6 +6,7 @@
 //
 
 #import "ZYCommonCellData.h"
+#import <UIKit/UIKit.h>
 
 @interface ZYCellData ()
 @property (nonatomic, strong, nullable) NSMutableDictionary *valueDic;
@@ -36,6 +37,14 @@
                 if (strongSelf.sValueCallback) {
                     strongSelf.sValueCallback(key, value);
                 }
+            }
+            return strongSelf;
+        };
+        
+        self.sValueNotCallback = ^ZYCellData * _Nonnull(NSString * _Nonnull key, id  _Nonnull value) {
+            __strong __typeof(weakSelf) strongSelf = weakSelf;
+            if (key.length > 0 && value) {
+                [strongSelf.valueDic setObject:value forKey:key];
             }
             return strongSelf;
         };
@@ -141,5 +150,42 @@
     }
     return _valueDic;
 }
+
+- (ZYCellDataSearchResult * _Nullable)searchCellDataByIdentifier:(NSString *)identifier {
+    if (identifier.length == 0) return nil;
+    for (NSInteger i = 0; i < self.rows.count; i++) {
+        ZYCellData *cellData = self.rows[i];
+        if ([identifier isEqualToString:cellData.identifier]) {
+            ZYCellDataSearchResult *result = [[ZYCellDataSearchResult alloc] init];
+            result.indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            result.sectionData = self;
+            result.cellData = cellData;
+            return result;
+        }
+    }
+    return nil;
+}
+
++ (ZYCellDataSearchResult *_Nullable)searchCellDataByIdentifier:(NSString *)identifier sectionDatas:(NSArray *)sectionDatas {
+    if (identifier.length == 0) return nil;
+    for (NSInteger i = 0; i < sectionDatas.count; i++) {
+        ZYSectionData *sectionData = sectionDatas[i];
+        for (NSInteger j = 0; j < sectionData.rows.count; j++) {
+            ZYCellData *cellData = sectionData.rows[j];
+            if ([identifier isEqualToString:cellData.identifier]) {
+                ZYCellDataSearchResult *result = [[ZYCellDataSearchResult alloc] init];
+                result.indexPath = [NSIndexPath indexPathForRow:j inSection:i];
+                result.sectionData = sectionData;
+                result.cellData = cellData;
+                return result;
+            }
+        }
+    }
+    return nil;
+}
+
+@end
+
+@implementation ZYCellDataSearchResult
 
 @end

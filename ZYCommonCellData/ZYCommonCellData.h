@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ZYCellDataSearchResult;
 typedef void (^ZYCellDataCallbackKey)(NSString *key);
 typedef void (^ZYCellDataCallbackKeyValue)(NSString *key, id value);
 @interface ZYCellData : NSObject
@@ -22,6 +23,7 @@ typedef void (^ZYCellDataCallbackKeyValue)(NSString *key, id value);
 @property (nonatomic, strong) ZYCellData * (^sIdentifier)(NSString *identifier);
 @property (nonatomic, strong) ZYCellData * (^sCellClass)(Class cellClass);
 @property (nonatomic, strong) ZYCellData * (^sValue)(NSString *key, id value);
+@property (nonatomic, strong) ZYCellData * (^sValueNotCallback)(NSString *key, id value);
 @property (nonatomic, strong) ZYCellData * (^sSValueCallback)(ZYCellDataCallbackKeyValue sValueCallback); //.sSValueCallback(^void(NSString *key, id value) {});
 @property (nonatomic, strong) id (^gValue)(NSString *key);
 @property (nonatomic, strong) ZYCellData * (^rValue)(NSString *key);
@@ -39,6 +41,15 @@ typedef void (^ZYCellDataCallbackKeyValue)(NSString *key, id value);
 @property (nonatomic, strong) ZYSectionData * (^sValue)(NSString *key, id value);
 @property (nonatomic, strong) id (^gValue)(NSString *key);
 @property (nonatomic, strong) ZYSectionData * (^sSelected)(BOOL selected);
+
+- (ZYCellDataSearchResult * _Nullable)searchCellDataByIdentifier:(NSString *)identifier; //在当前sectionData里面查询，所以indexPath.section默认为0
++ (ZYCellDataSearchResult * _Nullable)searchCellDataByIdentifier:(NSString *)identifier sectionDatas:(NSArray *)sectionDatas;
+@end
+
+@interface ZYCellDataSearchResult : NSObject
+@property (nonatomic, assign) NSIndexPath *indexPath;
+@property (nonatomic, strong) ZYSectionData *sectionData;
+@property (nonatomic, strong) ZYCellData *cellData;
 @end
 
 NS_ASSUME_NONNULL_END
