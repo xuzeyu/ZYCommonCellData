@@ -35,7 +35,7 @@
             if (key.length > 0 && value) {
                 [strongSelf.valueDic setObject:value forKey:key];
                 if (strongSelf.sValueCallback) {
-                    strongSelf.sValueCallback(key, value);
+                    strongSelf.sValueCallback(strongSelf, key, value);
                 }
             }
             return strongSelf;
@@ -64,7 +64,7 @@
             __strong __typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf.valueDic removeObjectForKey:key];
             if (strongSelf.rValueCallback) {
-                strongSelf.rValueCallback(key);
+                strongSelf.rValueCallback(strongSelf, key);
             }
             return strongSelf;
         };

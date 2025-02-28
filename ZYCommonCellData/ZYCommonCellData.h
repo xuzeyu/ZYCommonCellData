@@ -10,8 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ZYCellDataSearchResult;
-typedef void (^ZYCellDataCallbackKey)(NSString *key);
-typedef void (^ZYCellDataCallbackKeyValue)(NSString *key, id value);
+@class ZYCellData;
+typedef void (^ZYCellDataCallbackKey)(ZYCellData *cellData, NSString *key);
+typedef void (^ZYCellDataCallbackKeyValue)(ZYCellData *cellData, NSString *key, id value);
 @interface ZYCellData : NSObject
 @property (nonatomic, strong, nullable) NSString *identifier;
 @property (nonatomic, strong, nullable) Class cellClass;
@@ -24,10 +25,10 @@ typedef void (^ZYCellDataCallbackKeyValue)(NSString *key, id value);
 @property (nonatomic, strong) ZYCellData * (^sCellClass)(Class cellClass);
 @property (nonatomic, strong) ZYCellData * (^sValue)(NSString *key, id value);
 @property (nonatomic, strong) ZYCellData * (^sValueNotCallback)(NSString *key, id value);
-@property (nonatomic, strong) ZYCellData * (^sSValueCallback)(ZYCellDataCallbackKeyValue sValueCallback); //.sSValueCallback(^void(NSString *key, id value) {});
+@property (nonatomic, strong) ZYCellData * (^sSValueCallback)(ZYCellDataCallbackKeyValue sValueCallback); //.sSValueCallback(^void(ZYCellData *cellData, NSString *key, id value) {});
 @property (nonatomic, strong) id (^gValue)(NSString *key);
 @property (nonatomic, strong) ZYCellData * (^rValue)(NSString *key);
-@property (nonatomic, strong) ZYCellData * (^sRValueCallback)(ZYCellDataCallbackKey rValueCallback);//.sRValueCallback(^void(NSString *key) {});
+@property (nonatomic, strong) ZYCellData * (^sRValueCallback)(ZYCellDataCallbackKey rValueCallback);//.sRValueCallback(^void(ZYCellData *cellData, NSString *key) {});
 @property (nonatomic, strong) ZYCellData * (^sSelected)(BOOL selected);
 @end
 
